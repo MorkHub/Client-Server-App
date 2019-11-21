@@ -1,22 +1,34 @@
 package server;
 
+import server.message.MessageEvent;
+import server.message.MessageHandler;
 import shared.Player;
 import shared.PlayerNotFoundException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class ClientManager {
-    private ClientManager instance;
-    private Map<Player, Socket> sockets;
+    MessageHandler messageHandler;
+    static Map<Integer, SocketClient> clients;
+    SocketClient hasBall;
 
-    private ClientManager() {
-        this.sockets = new HashMap<>();
+    private static ClientManager instance;
+    private static int ID = 0;
+
+    public ClientManager() {
+        messageHandler = new MessageHandler();
+        clients = new HashMap<>();
+        hasBall = null;
     }
 
-    public ClientManager getInstance() {
+    public static ClientManager getInstance() {
         if (instance == null) {
             instance = new ClientManager();
         }
@@ -24,22 +36,75 @@ public class ClientManager {
         return instance;
     }
 
-    public void addPlayer(Socket socket, Player player) {
-        sockets.put(player, socket);
+    void onRegister(MessageEvent event) {
+        String args = event.args;
+        SocketClient client = event.client;
+        String name = args.split(" ")[0];
+        if (!name.isBlank()) {
+            Player player = new Player(++ID, name);
+            client.player = player;
+            clients.put(player.id, client);
+        }
     }
 
-    public Player getPlayer(String id) throws PlayerNotFoundException {
-        Optional<Player> playerById = sockets.keySet().stream().filter((Player p) -> id.equals(p.id)).findFirst();
-        if (playerById.isPresent())
-            return playerById.get();
-        else
-            throw new PlayerNotFoundException();
+    void passBall(MessageEvent event) {
+        String args = event.args;
+        SocketClient client = event.client;
+        SocketClient recipient = clients.get(Integer.parseInt(args));
+        if (recipient == null) {
+            client.out.write("ERROR Player not found");
+        } else {
+            if (!hasBall.equals(client.player)) {
+                client.sendMessage("ERROR You do not have the ball");
+            }
+            hasBall = recipient;
+            broadcast("BALLHOLDER " + recipient.player.id);
+        }
     }
 
-    public Socket getSocketByPlayer (Player p) throws PlayerNotFoundException {
-        Socket socketByPlayer = sockets.get(p);
-        if (socketByPlayer != null)
-            return socketByPlayer;
+    void listPlayers(SocketClient client) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("PLAYERLIST ");
+        clients.forEach((Integer i, SocketClient c) -> sb.append(c.player.toString()).append(" "));
+        client.sendMessage(sb.toString());
+    }
+
+    void onListPlayers(MessageEvent event) {
+        listPlayers(event.client);
+    }
+
+    public void registerHandlers() {
+        messageHandler.register("REGISTER", this::onRegister);
+        messageHandler.register("PASS", this::passBall);
+    }
+
+    public void onClientConnected(SocketClient client) {
+        new Thread(() -> {
+            try {
+                listPlayers(client);
+                String message;
+                while ((message = client.in.readLine()) != null) {
+                    System.out.println(String.format("[%s] -> %s", client.socket.getInetAddress(), message));
+                    messageHandler.handleMessage(client, message);
+                }
+
+                System.out.println(String.format("Client disconnected [%s]", client.socket.getInetAddress()));
+            } catch (IOException e) {
+                System.err.println("Error in socket");
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public void broadcast(String message) {
+        clients.forEach((Integer id, SocketClient client) -> client.sendMessage(message));
+    }
+
+    public SocketClient getClientById(int id) throws PlayerNotFoundException {
+        SocketClient client = clients.get(id);
+        if (client != null)
+            return client;
         else
             throw new PlayerNotFoundException();
     }

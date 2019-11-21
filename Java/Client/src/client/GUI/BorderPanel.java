@@ -11,6 +11,7 @@ public class BorderPanel extends JPanel {
         TitledBorder border = new TitledBorder(title);
         border.setTitleJustification(TitledBorder.CENTER);
         border.setTitlePosition(TitledBorder.TOP);
+        setBackground(new Color(255,255,255));
 
         setLayout(new BorderLayout());
         setBorder(border);

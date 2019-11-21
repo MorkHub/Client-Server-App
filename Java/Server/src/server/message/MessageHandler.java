@@ -1,5 +1,6 @@
 package server.message;
 
+import server.SocketClient;
 import shared.Player;
 
 import java.net.Socket;
@@ -7,13 +8,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class MessageHandler {
-    private HashMap<String, List<Consumer<String>>> listeners;
+    private HashMap<String, List<SocketAction>> listeners;
 
-    public void register(String message, Consumer<String> action) {
-        listeners.compute(message, (String key, List<Consumer<String>> actions) -> {
+    public void register(String message, SocketAction action) {
+        listeners.compute(message, (String key, List<SocketAction> actions) -> {
             if (actions == null)
                 actions = new ArrayList<>();
             actions.add(action);
@@ -22,17 +24,17 @@ public class MessageHandler {
         });
     }
 
-    public void handleMessage(String message, Player player, Socket socket) {
+    public void handleMessage(SocketClient client, String message) {
         String[] parts = message.split(" ", 1);
         if (parts.length == 2) {
             String command = parts[0];
             String args = parts[1];
 
-            MessageEvent event = new MessageEvent(command, args, player, socket, LocalDateTime.now());
+            MessageEvent event = new MessageEvent(command, args, client, LocalDateTime.now());
 
-            List<Consumer<String>> actions = listeners.get(command);
+            List<SocketAction> actions = listeners.get(command);
             if (actions !=  null) {
-                actions.forEach(a -> a.accept(args));
+                actions.forEach(a -> a.performAction(event));
             }
         }
     }
