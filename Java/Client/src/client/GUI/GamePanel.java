@@ -1,20 +1,15 @@
 package client.GUI;
 
 import shared.Player;
+import shared.event.MessageEvent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static client.GUI.Constants.LAST_ADDRESS_FILENAME;
 import static shared.SharedConstants.PORT_NUM;
@@ -77,8 +72,6 @@ public class GamePanel extends JPanel {
     }
 
     public void passBall() {
-
-        System.out.println(String.format("Connected: %s\nClosed: %s", activeSocket.isConnected(), activeSocket.isClosed()));
         sendMessage("PASSBALL 1");
     }
 
@@ -142,39 +135,52 @@ public class GamePanel extends JPanel {
     private BufferedReader in;
 
     private boolean connected = false;
-    private boolean connecting = false;
+    private boolean busy = false;
 
-    public synchronized void sendMessage(String message) {
-        if (connected) {
-            System.out.println(String.format(" -> %s", message));
-            info(String.format(" -> %s", message));
-            out.write(message + "\n");
-        }
-    }
+    public void sendMessage(String message) {
+        new Thread(() -> {
+            String output;
+            if (connected) {
+                output = String.format("TO [SERVER]: %s", message);
+                System.out.println(output);
+                info(output);
 
-    public void onDisconnected() {
-        connected = false;
-        updateStatus();
+                out.println(message);
+
+                try {
+                    String response = in.readLine();
+                    output = String.format("FROM [SERVER]: %s", response);
+                    System.out.println(output);
+                    info(output);
+
+                    if (MessageEvent.getCommand(response).equals("ERROR")) {
+                        JOptionPane.showMessageDialog(null, MessageEvent.getData(response), "Error", JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     String serverAddress;
 
     public void onConnected() {
         reconnectBtn.setEnabled(true);
-        connecting = false;
+        busy = false;
         connected = true;
-        new Thread(() -> {
-            String message;
-            try {
-                while (connected) {
-                    message = in.readLine();
-                    System.out.println(message);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                onDisconnected();
-            }
-        }).start();
+
+        sendMessage("LISTPLAYERS");
+
+        updateStatus();
+        listen();
+    }
+
+    public void onClosed() {
+        connected = false;
+        busy = false;
+        reconnectBtn.setEnabled(true);
+        model.clear();
 
         updateStatus();
     }
@@ -183,7 +189,7 @@ public class GamePanel extends JPanel {
         if (connected) {
             try {
                 activeSocket.close();
-                connected = false;
+                onClosed();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -192,31 +198,58 @@ public class GamePanel extends JPanel {
 
     Socket activeSocket;
 
-    public void connect() {
-        if (!connected && !connecting) {
-            connecting = true;
-            reconnectBtn.setEnabled(false);
-            new Thread(() -> {
-                try {
-                    info("Connecting to:" + serverAddress);
-                    activeSocket = new Socket(serverAddress, PORT_NUM);
+    public void onPlayerList(String fromServer) {
+        String list = MessageEvent.getData(fromServer);
+        if (list != null) {
 
-                    out = new PrintWriter(activeSocket.getOutputStream(), true);
-                    in = new BufferedReader(new InputStreamReader(activeSocket.getInputStream()));
+        }
+    }
 
-                    System.out.println(String.format("Connected: %s\nClosed: %s", activeSocket.isConnected(), activeSocket.isClosed()));
-                    onConnected();
+    public void listen() {
+        new Thread(() -> {
+            String fromServer, command, message;
+            try {
+                while ((fromServer = in.readLine()) != null) {
+                    command = MessageEvent.getCommand(fromServer);
+                    message = MessageEvent.getData(fromServer);
 
-                    out.write("HELLO\n");
-                    System.out.println(in.readLine());
-                    sendMessage("REGISTER " + me.name);
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Could not connect to the server. Is it running?",
-                            "Connection Failed", JOptionPane.ERROR_MESSAGE);
+                    switch (command) {
+                        case "PLAYERLIST":
+                            onPlayerList(message);
+                            break;
+                    }
+                    info(message);
                 }
-            }).start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            updateStatus();
+        }).start();
+    }
+
+    public void connect() {
+        if (!connected && !busy) {
+            busy = true;
+            reconnectBtn.setEnabled(false);
+            try {
+                info("Connecting to:" + serverAddress);
+
+                activeSocket = new Socket(serverAddress, PORT_NUM);
+                out = new PrintWriter(activeSocket.getOutputStream(), true);
+                in = new BufferedReader(new InputStreamReader(activeSocket.getInputStream()));
+
+                connected = true;
+                sendMessage("IDENTIFY " + me.name);
+                onConnected();
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Could not connect to the server. Is it running?",
+                        "Connection Failed", JOptionPane.ERROR_MESSAGE);
+            }
+
+
         }
     }
 

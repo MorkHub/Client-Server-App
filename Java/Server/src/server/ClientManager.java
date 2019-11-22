@@ -1,34 +1,33 @@
 package server;
 
-import server.message.MessageEvent;
-import server.message.MessageHandler;
+import shared.event.MessageEvent;
+import shared.event.MessageHandler;
+import shared.ISocketClient;
 import shared.Player;
 import shared.PlayerNotFoundException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class ClientManager {
-    MessageHandler messageHandler;
-    static Map<Integer, SocketClient> clients;
-    SocketClient hasBall;
+    private MessageHandler messageHandler;
+    private static Map<Integer, SocketClient> clients;
+    private Player hasBall;
 
     private static ClientManager instance;
     private static int ID = 0;
 
-    public ClientManager() {
+    private ClientManager() {
         messageHandler = new MessageHandler();
         clients = new HashMap<>();
         hasBall = null;
+
+        registerHandlers();
     }
 
-    public static ClientManager getInstance() {
+    static ClientManager getInstance() {
         if (instance == null) {
             instance = new ClientManager();
         }
@@ -36,60 +35,77 @@ public class ClientManager {
         return instance;
     }
 
-    void onRegister(MessageEvent event) {
-        String args = event.args;
-        SocketClient client = event.client;
-        String name = args.split(" ")[0];
-        if (!name.isBlank()) {
-            Player player = new Player(++ID, name);
-            client.player = player;
-            clients.put(player.id, client);
-        }
-    }
-
-    void passBall(MessageEvent event) {
-        String args = event.args;
-        SocketClient client = event.client;
-        SocketClient recipient = clients.get(Integer.parseInt(args));
-        if (recipient == null) {
-            client.out.write("ERROR Player not found");
-        } else {
-            if (!hasBall.equals(client.player)) {
+    private String passBall(MessageEvent event) {
+        ISocketClient client = event.getClient();
+        try {
+            Player recipient = getClientById(event.getData());
+            if (!hasBall.equals(event.getOwner()))
                 client.sendMessage("ERROR You do not have the ball");
-            }
             hasBall = recipient;
-            broadcast("BALLHOLDER " + recipient.player.id);
+
+//            broadcast("BALLHOLDER " + recipient.id);
+            return "SUCCESS";
+        } catch (PlayerNotFoundException e) {
+            return "ERROR Player not found";
         }
     }
 
-    void listPlayers(SocketClient client) {
+    private String listPlayers(MessageEvent event) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("PLAYERLIST ");
-        clients.forEach((Integer i, SocketClient c) -> sb.append(c.player.toString()).append(" "));
-        client.sendMessage(sb.toString());
-    }
-
-    void onListPlayers(MessageEvent event) {
-        listPlayers(event.client);
+        clients.forEach((Integer i, SocketClient c) -> sb.append(c.getOwner().toString()).append(" "));
+        return sb.toString();
     }
 
     public void registerHandlers() {
-        messageHandler.register("REGISTER", this::onRegister);
         messageHandler.register("PASS", this::passBall);
+        messageHandler.register("LISTPLAYERS", this::listPlayers);
     }
 
-    public void onClientConnected(SocketClient client) {
+    public void processSocket(Socket socket) {
+        try {
+            ISocketClient initialClient = new SocketClient(null, socket);
+            System.out.println(String.format("New connection from [%s]", initialClient.getAddress()));
+            int attemptsRemaining = 3;
+
+            String fromClient;
+            while (attemptsRemaining-- > 0 && (fromClient = initialClient.readMessage()) != null) {
+                System.out.println(fromClient);
+                MessageEvent registerEvent = new MessageEvent(fromClient, initialClient, null);
+
+                System.out.println(String.format("%s / %s", registerEvent.getCommand(), registerEvent.getData()));
+                if (registerEvent.getCommand().equals("IDENTIFY")) {
+                    Player player = new Player(++ID, registerEvent.getData());
+                    ISocketClient client = new SocketClient(player, socket);
+                    System.out.println(String.format("[%s] Registered as %s", client.getAddress(), player));
+
+                    client.sendMessage("SUCCESS");
+                    onClientRegistered(client);
+
+                    break;
+                } else {
+                    initialClient.sendMessage("ERROR You must identify first.");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void onClientRegistered(ISocketClient client) {
         new Thread(() -> {
             try {
-                listPlayers(client);
-                String message;
-                while ((message = client.in.readLine()) != null) {
-                    System.out.println(String.format("[%s] -> %s", client.socket.getInetAddress(), message));
-                    messageHandler.handleMessage(client, message);
-                }
+                String fromClient, toClient;
+                while ((fromClient = client.readMessage()) != null) {
+                    System.out.println(String.format("FROM [%s]: %s", client.getAddress(), fromClient));
+                    toClient = messageHandler.processInput(client, fromClient);
 
-                System.out.println(String.format("Client disconnected [%s]", client.socket.getInetAddress()));
+                    if (toClient != null) {
+                        client.sendMessage(toClient);
+                    }
+                }
+                System.out.println(String.format("Client disconnected [%s]", client.getAddress()));
             } catch (IOException e) {
                 System.err.println("Error in socket");
                 e.printStackTrace();
@@ -101,10 +117,13 @@ public class ClientManager {
         clients.forEach((Integer id, SocketClient client) -> client.sendMessage(message));
     }
 
-    public SocketClient getClientById(int id) throws PlayerNotFoundException {
+    public Player getClientById(String id) throws PlayerNotFoundException {
+        return getClientById(Integer.parseInt(id));
+    }
+    public Player getClientById(int id) throws PlayerNotFoundException {
         SocketClient client = clients.get(id);
         if (client != null)
-            return client;
+            return client.getOwner();
         else
             throw new PlayerNotFoundException();
     }
