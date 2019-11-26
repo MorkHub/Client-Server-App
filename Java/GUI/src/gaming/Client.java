@@ -5,10 +5,7 @@ import shared.SocketClient;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -103,15 +100,12 @@ public class Client {
     private void success(String msg) {
         write(msg, Color.BLUE);
     }
-
     private void error(String msg) {
         write(msg, Color.RED);
     }
-
     private void info(String msg) {
         write(msg, Color.BLACK);
     }
-
     private void write(String msg, Color c) {
         StyleContext sc = StyleContext.getDefaultStyleContext();
         AttributeSet attrs = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
@@ -119,10 +113,8 @@ public class Client {
         attrs = sc.addAttribute(attrs, StyleConstants.FontFamily, "Lucida Console");
         attrs = sc.addAttribute(attrs, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
 
-        int len = log.getDocument().getLength();
-        log.setCaretPosition(len);
-        log.setCharacterAttributes(attrs, false);
-        log.replaceSelection(msg + "\n");
+        StyledDocument doc = log.getStyledDocument();
+        try { doc.insertString(doc.getLength(), msg + "\n", attrs); } catch (BadLocationException ignored) {}
     }
 
     JPanel border(String title) {
@@ -207,8 +199,6 @@ public class Client {
         JScrollPane scrollPane = new JScrollPane(log);
         left.setLayout(new BorderLayout());
 
-
-        log = new JTextPane();
         log.setEditable(false);
 
         right.setLayout(new GridLayout(1,1));

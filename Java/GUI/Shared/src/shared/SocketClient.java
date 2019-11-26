@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class SocketClient {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     private static int IDs = 0;
     private BufferedReader in;

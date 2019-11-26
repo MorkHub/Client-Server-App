@@ -1,0 +1,8 @@
+M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Server\bin\Debug\Server.exe.config
+M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Server\bin\Debug\Server.exe
+M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Server\bin\Debug\Server.pdb
+M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Server\obj\Debug\Server.exe
+M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Server\obj\Debug\Server.pdb
+M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Server\bin\Debug\Shared.dll
+M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Server\bin\Debug\Shared.pdb

@@ -1,0 +1,4 @@
+M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Shared\bin\Debug\Shared.dll
+M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Shared\bin\Debug\Shared.pdb
+M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Shared\obj\Debug\Shared.dll
+M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Shared\obj\Debug\Shared.pdb
