@@ -4,7 +4,6 @@ import shared.Response;
 import shared.SocketClient;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import static shared.Message.*;
 
@@ -45,19 +45,28 @@ public class Client {
     private Set<Integer> players = new HashSet<>();
     private int playerPre = 1;
 
+    void tryParse(String obj, Consumer<Integer> callback) {
+        int parsed = tryParse(obj);
+        if (parsed != -1)
+            callback.accept(parsed);
+    }
+
+    int tryParse(String obj) {
+        try {
+            return Integer.parseInt(obj);
+        } catch (NumberFormatException ignored) {
+            return -1;
+        }
+    }
+
     private void loop() {
         try {
             client = new SocketClient("localhost", 6969);
             success("Connected");
 
             Response res;
-
             while ((res = client.read()) != null) {
-                int ID = -1;
-                try {
-                    ID = Integer.parseInt(res.getData());
-                } catch (NumberFormatException ignored) {
-                }
+                int ID = tryParse(res.getData());
 
                 switch (res.getCommand()) {
                     case PLAYER_JOIN:
@@ -76,12 +85,8 @@ public class Client {
 
                     case PLAYER_LIST:
                         players.clear();
-                        for (String player : res.getData().split(",")) {
-                            try {
-                                players.add(Integer.parseInt(player));
-                            } catch (Exception ignored) {
-                            }
-                        }
+                        for (String player : res.getData().split(","))
+                            tryParse(player, players::add);
                         break;
 
                     case BALL_MOVED:
@@ -96,34 +101,43 @@ public class Client {
                         break;
 
                     case ID_ASSIGNED:
-                        try {
-                            myID = Integer.parseInt(res.getData());
+                        if (ID >= 0) {
+                            myID = ID;
                             info("I am Player #" + myID);
                             window.setTitle("Player #" + myID);
-                        } catch (NumberFormatException e) {
+                        } else
                             error("Invalid user ID from server");
-                        }
                         break;
 
                     case ERROR:
+                        error(res.getData());
                         System.err.println(res.getData());
                         break;
 
                     case PING:
                         continue;
                 }
-
                 updateStatus();
             }
+
             info("Disconnected.");
         } catch (IOException e) {
             error(e.getMessage());
         }
     }
 
-    private void success(String msg) { write(msg, Color.BLUE); }
-    private void info(String msg) { write(msg, Color.BLACK); }
-    private void error(String msg) { write(msg, Color.RED); }
+    private void success(String msg) {
+        write(msg, Color.BLUE);
+    }
+
+    private void info(String msg) {
+        write(msg, Color.BLACK);
+    }
+
+    private void error(String msg) {
+        write(msg, Color.RED);
+    }
+
     private void write(String msg, Color c) {
         StyleContext sc = StyleContext.getDefaultStyleContext();
         AttributeSet attrs = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
@@ -136,17 +150,6 @@ public class Client {
             doc.insertString(doc.getLength(), msg + "\n", attrs);
         } catch (BadLocationException ignored) {
         }
-    }
-
-    private JPanel border(String title) {
-        JPanel panel = new JPanel();
-        TitledBorder border = new TitledBorder(title);
-        panel.setBackground(new Color(255, 255, 255));
-        border.setTitleJustification(TitledBorder.CENTER);
-        border.setTitlePosition(TitledBorder.TOP);
-        panel.setBorder(border);
-
-        return panel;
     }
 
     private void updateStatus() {
@@ -166,21 +169,27 @@ public class Client {
             strings.add(String.format("I am Player #%s", myID));
         }
 
+
         passBtn.setEnabled(myID != -1 && hasBall == myID);
         statusBar.setText(String.join(" | ", strings));
 
         int playerPost = players.hashCode();
         if (playerPre != playerPost) {
+            Integer selectedPlayer = playerList.getSelectedValue();
+
             model.clear();
             players.forEach(model::addElement);
             playerPre = playerPost;
+
+            if (model.contains(selectedPlayer))
+                playerList.setSelectedValue(selectedPlayer, true);
         }
     }
 
     private void create() {
         split = new JPanel();
-        left = border("Players");
-        right = border("Message Log");
+        left = new TitledPanel("Players");
+        right = new TitledPanel("Message Log");
 
         model = new DefaultListModel<>();
         playerList = new JList<>();
@@ -242,7 +251,7 @@ public class Client {
         playerList.addMouseListener(doubleClickUser);
     }
 
-    void finalise() {
+    private void display() {
         window.setPreferredSize(new Dimension(700, 400));
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setVisible(true);
@@ -254,7 +263,7 @@ public class Client {
         layout();
         populate();
         listeners();
-        finalise();
+        display();
         updateStatus();
 
         new Thread(this::loop).start();

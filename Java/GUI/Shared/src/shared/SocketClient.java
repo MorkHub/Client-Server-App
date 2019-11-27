@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
+import java.rmi.server.ExportException;
 
 public class SocketClient {
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     private static int IDs = 0;
     private BufferedReader in;
@@ -29,13 +31,14 @@ public class SocketClient {
     public Response read() {
         try {
             String message = in.readLine();
+            if (message == null) return null;
+
             Response response = Response.parse(message);
             if (DEBUG)
                 System.out.println(String.format("[FROM %s] %s", this, message));
 
             return response;
         } catch (IOException e) {
-//            e.printStackTrace();
             return null;
         }
     }
