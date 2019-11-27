@@ -1,11 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b7e9770b-6062-45d1-ad97-952f4e4c0429" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="126f35d4-9d47-4ced-9b10-1b2003624d3e" name="Default Changelist" comment="Code cleanup">
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/.vs/Client/v14/.suo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client.sln" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/App.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/Client.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/Form1.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/Form1.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/Form1.resx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/Properties/AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/Properties/Resources.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/Properties/Resources.resx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/Properties/Settings.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/Properties/Settings.settings" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/bin/Debug/Client.exe.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/bin/Debug/Client.vshost.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/bin/Debug/Client.vshost.exe.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/bin/Debug/Client.vshost.exe.manifest" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/obj/Debug/Client.csproj.FileListAbsolute.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/obj/Debug/DesignTimeResolveAssemblyReferences.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Client/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/App.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/Properties/AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/Server.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/bin/Debug/Server.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/bin/Debug/Server.exe.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/bin/Debug/Server.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/bin/Debug/Server.vshost.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/bin/Debug/Server.vshost.exe.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/bin/Debug/Shared.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/bin/Debug/Shared.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/obj/Debug/Server.csproj.FileListAbsolute.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/obj/Debug/Server.csprojResolveAssemblyReference.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/obj/Debug/Server.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/obj/Debug/Server.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Server/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/Client.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/Constants.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/Properties/AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/Shared.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/bin/Debug/Shared.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/bin/Debug/Shared.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/obj/Debug/Shared.csproj.FileListAbsolute.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/obj/Debug/Shared.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/obj/Debug/Shared.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Client/Shared/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Console/.idea/description.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Console/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Console/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Console/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Console/.idea/project-template.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Console/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Console/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Console/Assignment 1 - 2.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Shared/src/shared/SocketClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/src/shared/SocketClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gaming/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaming/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/client/Client.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,40 +77,16 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand />
-    <select />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-  <component name="ProjectId" id="1U9oAMIsHCeUfry50bGa8KnlymS" />
+  <component name="ProjectId" id="1UCzOgnL6zDHmL9lNN4QPdEZzYw" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Shared" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -61,21 +101,12 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.Client">
-    <configuration name="Client" type="Application" factoryName="Application" singleton="false">
+    <configuration name="Client (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="gaming.Client" />
-      <module name="Assignment 1 - 2" />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Server" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="server.Server" />
-      <module name="Server" />
+      <module name="Client" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.*" />
+          <option name="PATTERN" value="gaming.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -83,24 +114,37 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Application.Client" />
-      <item itemvalue="Application.Server" />
-    </list>
+    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="client.Client" />
+      <module name="Client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Client" />
+        <item itemvalue="Application.Client (1)" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b7e9770b-6062-45d1-ad97-952f4e4c0429" name="Default Changelist" comment="" />
-      <created>1574778027984</created>
+      <changelist id="126f35d4-9d47-4ced-9b10-1b2003624d3e" name="Default Changelist" comment="" />
+      <created>1574875334876</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1574778027984</updated>
-      <workItem from="1574778041945" duration="7179000" />
-      <workItem from="1574785672862" duration="10079000" />
-      <workItem from="1574801412773" duration="1241000" />
+      <updated>1574875334876</updated>
+      <workItem from="1574875336203" duration="1653000" />
     </task>
     <servers />
   </component>
