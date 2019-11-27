@@ -120,7 +120,7 @@ public class Client {
                 updateStatus();
             }
 
-            info("Disconnected.");
+            error("Disconnected.");
         } catch (IOException e) {
             error(e.getMessage());
         }
@@ -169,7 +169,6 @@ public class Client {
             strings.add(String.format("I am Player #%s", myID));
         }
 
-
         passBtn.setEnabled(myID != -1 && hasBall == myID);
         statusBar.setText(String.join(" | ", strings));
 
@@ -200,6 +199,9 @@ public class Client {
         log = new JTextPane();
         log.setEditable(false);
         scrollPane = new JScrollPane(log);
+
+        // Scroll down when new messages added
+        ((DefaultCaret) log.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         bottom = new JPanel();
         statusBar = new JLabel();

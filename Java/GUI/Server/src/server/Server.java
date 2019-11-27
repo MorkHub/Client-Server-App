@@ -35,10 +35,10 @@ public class Server {
     }
 
     private void passBall(SocketClient from, int id) {
-
         if (fixBall()) {
             System.out.println("Fixed ball");
         }
+
         if (hasBall != -1 && hasBall != from.id) {
             from.send(ERROR, "You do not have the ball!");
             return;
@@ -47,8 +47,10 @@ public class Server {
         if (clients.containsKey(id)) {
             hasBall = id;
             broadcast(BALL_MOVED, hasBall);
+            System.out.println(String.format("%s passed the ball to %s.", from, id));
         } else {
             from.send(ERROR, "Player not found.");
+            System.out.println(String.format("%s tried to give the ball to %s, but did not have it.", from, id));
         }
     }
 
@@ -97,10 +99,9 @@ public class Server {
                 client.send(ID_ASSIGNED, client.id);
                 client.send(PLAYER_LIST, listPlayers());
                 broadcast(PLAYER_JOIN, client.id);
-//                broadcast("PLAYERS", listPlayers());
                 client.send(BALL_MOVED, hasBall);
 
-                System.out.println(String.format(" - %s connected %s", client, clients.values()));
+                System.out.println(String.format("%s connected. Players: [%s]", client, clients.values()));
                 fixBall();
 
                 new Thread(() -> {
@@ -123,7 +124,7 @@ public class Server {
                     clients.remove(client.id);
                     broadcast(PLAYER_LEAVE, client.id);
 
-                    System.out.println(String.format(" - %s disconnected %s", client, clients.values()));
+                    System.out.println(String.format("%s disconnected. Players: [%s]", client, clients.values()));
                     fixBall();
                 }).start();
             }
