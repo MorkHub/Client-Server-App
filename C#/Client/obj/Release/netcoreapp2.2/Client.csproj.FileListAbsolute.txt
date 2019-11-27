@@ -1,0 +1,14 @@
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\bin\Release\netcoreapp2.2\Client.deps.json
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\bin\Release\netcoreapp2.2\Client.runtimeconfig.json
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\bin\Release\netcoreapp2.2\Client.runtimeconfig.dev.json
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\bin\Release\netcoreapp2.2\Client.dll
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\bin\Release\netcoreapp2.2\Client.pdb
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\bin\Release\netcoreapp2.2\Shared.dll
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\bin\Release\netcoreapp2.2\Shared.pdb
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\obj\Release\netcoreapp2.2\Client.csprojAssemblyReference.cache
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\obj\Release\netcoreapp2.2\Client.csproj.CoreCompileInputs.cache
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\obj\Release\netcoreapp2.2\Client.AssemblyInfoInputs.cache
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\obj\Release\netcoreapp2.2\Client.AssemblyInfo.cs
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\obj\Release\netcoreapp2.2\Client.csproj.CopyComplete
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\obj\Release\netcoreapp2.2\Client.dll
+C:\Users\Mark Cockburn\OneDrive - University of Essex\Year 3\CE303\CE303-Ass1\C#\Client\obj\Release\netcoreapp2.2\Client.pdb

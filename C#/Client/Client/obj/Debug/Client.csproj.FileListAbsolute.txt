@@ -1,1 +1,0 @@
-M:\coursework\year3\CE303\CE303-Ass1\C#\Client\Client\bin\Debug\Client.exe.config

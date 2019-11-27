@@ -6,17 +6,18 @@ import shared.SocketClient;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.*;
 
 import static shared.Message.*;
-
+import static shared.SocketClient.DEBUG;
 
 public class Server {
     private ServerSocket server;
     private final Map<Integer, SocketClient> clients = new HashMap<>();
     private int hasBall = -1;
 
-    boolean fixBall() {
+    private boolean fixBall() {
         synchronized (clients) {
             if (hasBall == -1 || !clients.containsKey(hasBall)) {
                 if (clients.isEmpty()) {
@@ -33,7 +34,7 @@ public class Server {
         }
     }
 
-    void passBall(SocketClient from, int id) {
+    private void passBall(SocketClient from, int id) {
 
         if (fixBall()) {
             System.out.println("Fixed ball");
@@ -51,13 +52,13 @@ public class Server {
         }
     }
 
-    void broadcast(String cmd, Object d) {
+    private void broadcast(String cmd, Object d) {
         clients.forEach((id, client) -> client.send(cmd, d));
     }
 
-    Thread heartbeatThread;
+    private Thread heartbeatThread;
 
-    void heartbeat() {
+    private void heartbeat() {
         if (heartbeatThread == null) {
             heartbeatThread = new Thread(() -> {
                 try {
@@ -75,13 +76,13 @@ public class Server {
         }
     }
 
-    String listPlayers() {
+    private String listPlayers() {
         StringBuilder sb = new StringBuilder();
         clients.values().forEach(c -> sb.append(c.id).append(","));
         return sb.toString();
     }
 
-    Server() {
+    private Server() {
         try {
             server = new ServerSocket(6969);
             heartbeat();
@@ -128,7 +129,8 @@ public class Server {
             }
             server.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            if (DEBUG)
+                e.printStackTrace();
         }
     }
 
